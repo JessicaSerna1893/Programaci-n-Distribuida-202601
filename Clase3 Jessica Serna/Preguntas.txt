@@ -1,0 +1,19 @@
+1. ¿Es seguro usar una variable global?
+
+El uso de variables globales en una aplicación no siempre es seguro, especialmente cuando el sistema maneja múltiples solicitudes al mismo tiempo. En el caso de una API desarrollada con FastAPI, varias peticiones pueden ejecutarse de manera concurrente y acceder a la misma variable global. Esto puede generar inconsistencias en los datos si diferentes procesos intentan modificar la variable simultáneamente.
+
+En el desarrollo realizado, se utilizó una variable global para almacenar la lista de clientes y un contador para registrar cuántos clientes han sido creados. Aunque esta solución funciona para fines educativos o para aplicaciones pequeñas, en entornos reales podría ocasionar problemas de concurrencia. Por esta razón, en aplicaciones de producción se recomienda utilizar bases de datos o mecanismos de control de concurrencia que permitan manejar los datos de manera más segura.
+
+2. ¿Dónde aparece el recurso compartido?
+
+El recurso compartido aparece en las variables globales utilizadas dentro de la aplicación, específicamente en la lista clientes y en el contador contador_clientes. Estas variables son accesibles por todas las funciones de la API y por todas las solicitudes que llegan al servidor.
+
+Cada vez que un usuario crea, consulta, actualiza o elimina un cliente, la aplicación interactúa con estas variables. Debido a que múltiples solicitudes pueden ejecutarse al mismo tiempo, todas comparten el acceso a estos recursos. Por lo tanto, las variables globales se convierten en recursos compartidos dentro del sistema, lo que puede generar conflictos si varias operaciones intentan modificarlas simultáneamente.
+
+3. ¿Se debería usar lock en producción?
+
+En aplicaciones que manejan múltiples solicitudes concurrentes, es recomendable utilizar mecanismos de sincronización como los locks. Un lock permite que solo una tarea acceda o modifique un recurso compartido a la vez, evitando así problemas como condiciones de carrera o inconsistencias en los datos.
+
+Sin embargo, en aplicaciones de producción generalmente no se manejan los datos únicamente con variables en memoria. Lo más común es utilizar bases de datos o sistemas especializados que gestionan la concurrencia de manera automática y segura. Estos sistemas permiten que múltiples usuarios accedan a la información sin comprometer la integridad de los datos.
+
+Por esta razón, aunque el uso de locks puede ser útil para proteger recursos compartidos en aplicaciones pequeñas o en ejercicios académicos, en sistemas reales se suele utilizar infraestructura más robusta que gestione la concurrencia de forma adecuada.
